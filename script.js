@@ -1,9 +1,24 @@
 const music = new Audio("audio/Nikko Culture-If Your Love.mp3");
 
-//music.play();
+let masterPlay = document.getElementById("masterPlay");
+let wave = document.getElementsByClassName("wave")[0];
 
-const songs = [
-  {
+masterPlay.addEventListener("click", () => {
+  if (music.paused || music.currentTime <= 0) {
+    music.play();
+    masterPlay.classList.remove("bi-play-fill");
+    masterPlay.classList.add("bi-pause-fill");
+    wave.classList.add("active2");
+  } else {
+    music.pause();
+    masterPlay.classList.add("bi-play-fill");
+    masterPlay.classList.remove("bi-pause-fill");
+    wave.classList.remove("active2");
+  }
+});
+
+
+const songs = [{
     id: "1",
     songname: `If Your Love <br>
     <div class='subtitle'>Nikko Culture</div>`,
@@ -53,20 +68,3 @@ Array.from(document.getElementsByClassName("songItem")).forEach(
     element.getElementsByTagName("h5")[0].innerHTML = songs[i].songname;
   }
 );
-
-let masterPlay = document.getElementById("masterPlay");
-let wave = document.getElementsByClassName("wave")[0];
-
-masterPlay.addEventListener("click", () => {
-  if (music.paused || music.currentTime <= 0) {
-    music.play();
-    masterPlay.classList.remove("bi-play-fill");
-    masterPlay.classList.add("bi-pause-fill");
-    wave.classList.add("active2");
-  } else {
-    music.pause();
-    masterPlay.classList.add("bi-play-fill");
-    masterPlay.classList.remove("bi-pause-fill");
-    wave.classList.remove("active2");
-  }
-});
