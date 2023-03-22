@@ -1,4 +1,4 @@
-const music = new Audio("audio/Nikko Culture-If Your Love.mp3");
+const music = new Audio("Nikko Culture-If Your Love.mp3");
 
 let masterPlay = document.getElementById("masterPlay");
 let wave = document.getElementsByClassName("wave")[0];
