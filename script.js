@@ -130,7 +130,7 @@ input.addEventListener("keyup", () => {
       items[index].style.display = "none";
     }
 
-    if (text_value == 0) {
+    if (input.value == 0) {
       search_result.style.display = "none";
     } else {
       search_result.style.display = "";
