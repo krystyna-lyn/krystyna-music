@@ -1,4 +1,4 @@
-const music = new Audio("Nikko Culture-If Your Love.mp3");
+const music = new Audio("audio/1.mp3");
 
 const songs = [{
     id: '1',
