@@ -1,18 +1,19 @@
 const music = new Audio("audio/1.mp3");
 
-const songs = [{
-    id: '1',
+const songs = [
+  {
+    id: "1",
     songName: `If Your Love<br>
       <div class="subtitle">Nikko Culture</div>`,
-    poster: "img/1.jpg"
+    poster: "img/1.jpg",
   },
   {
-    id: '2',
+    id: "2",
     songName: `Let me <br>
       <div class="subtitle">Nikko Culture</div>`,
-    poster: "img/2.jpg"
+    poster: "img/2.jpg",
   },
-  // all object type 
+  // all object type
   {
     id: "3",
     songName: `Somethings gone <br><div class="subtitle">Nikko Culture</div>`,
@@ -82,17 +83,16 @@ const songs = [{
     id: "16",
     songName: `Without You <br><div class="subtitle">Mahmut Orhan</div>`,
     poster: "img/16.jpg",
-  }
-]
-
-
+  },
+];
 
 // show popular songs
-Array.from(document.getElementsByClassName('songItem')).forEach((element, i) => {
-  element.getElementsByTagName('h5')[0].innerHTML = songs[i].songName;
-  element.getElementsByTagName('img')[0].src = songs[i].poster;
-
-})
+Array.from(document.getElementsByClassName("songItem")).forEach(
+  (element, i) => {
+    element.getElementsByTagName("h5")[0].innerHTML = songs[i].songName;
+    element.getElementsByTagName("img")[0].src = songs[i].poster;
+  }
+);
 
 // SEARCH BAR
 
@@ -119,7 +119,7 @@ let input = document.getElementsByTagName("input")[0];
 input.addEventListener("keyup", () => {
   let input_value = input.value.toUpperCase();
   let items = search_result.getElementsByTagName("a");
- 
+
   for (let index = 0; index < items.length; index++) {
     let as = items[index].getElementsByClassName("content")[0];
     let text_value = as.textContent || as.innerHTML;
@@ -158,71 +158,69 @@ masterPlay.addEventListener("click", () => {
 
 // add to all buttons Play icon and remove pause
 const makeAllPlays = () => {
-
-  Array.from(document.getElementsByClassName('playListPlay')).forEach((element) => {
-    element.classList.add('bi-play-circle-fill');
-    element.classList.remove('bi-pause-circle-fill');
-  })
-
-}
+  Array.from(document.getElementsByClassName("playListPlay")).forEach(
+    (element) => {
+      element.classList.add("bi-play-circle-fill");
+      element.classList.remove("bi-pause-circle-fill");
+    }
+  );
+};
 
 const makeAllBackgrounds = () => {
+  Array.from(document.getElementsByClassName("songItem")).forEach((element) => {
+    element.style.background = "rgb(105, 105, 170, 0)";
+  });
+};
 
-  Array.from(document.getElementsByClassName('songItem')).forEach((element) => {
-    element.style.background = 'rgb(105, 105, 170, 0)';
-
-  })
-
-}
-
-// after click on play add pause icon and change poster, title of song 
+// after click on play add pause icon and change poster, title of song
 let index = 0;
-let poster_master_play = document.getElementById('poster_master_play');
-let title = document.getElementById('title');
+let poster_master_play = document.getElementById("poster_master_play");
+let title = document.getElementById("title");
 
+Array.from(document.getElementsByClassName("playListPlay")).forEach(
+  (element) => {
+    element.addEventListener("click", (e) => {
+      index = e.target.id;
+      makeAllPlays();
+      e.target.classList.remove("bi-play-circle-fill");
+      e.target.classList.add("bi-pause-circle-fill");
+      music.src = `audio/${index}.mp3`;
+      poster_master_play.src = `img/${index}.jpg`;
+      music.play();
 
-Array.from(document.getElementsByClassName('playListPlay')).forEach((element) => {
-  element.addEventListener('click', (e) => {
-    index = e.target.id;
-    makeAllPlays();
-    e.target.classList.remove('bi-play-circle-fill');
-    e.target.classList.add('bi-pause-circle-fill');
-    music.src = `audio/${index}.mp3`;
-    poster_master_play.src = `img/${index}.jpg`;
-    music.play();
+      let song_title = songs.filter((el) => {
+        return el.id == index;
+      });
 
-    let song_title = songs.filter((el) => {
-      return el.id == index;
-    })
+      song_title.forEach((el) => {
+        let { songName } = el;
+        title.innerHTML = songName;
 
-    song_title.forEach(el => {
-      let {
-        songName
-      } = el;
-      title.innerHTML = songName;
+        masterPlay.classList.remove("bi-play-fill");
+        masterPlay.classList.add("bi-pause-fill");
+        wave.classList.add("active2");
+        //click for pause song
+        music.addEventListener("ended", () => {
+          masterPlay.classList.add("bi-play-fill");
+          masterPlay.classList.remove("bi-pause-fill");
+          wave.classList.remove("active2");
+        });
+        makeAllBackgrounds();
+        Array.from(document.getElementsByClassName("songItem"))[
+          `${index - 1}`
+        ].style.background = "rgb(105, 105, 170, .1)";
+      });
+    });
+  }
+);
 
-      masterPlay.classList.remove("bi-play-fill");
-      masterPlay.classList.add("bi-pause-fill");
-      wave.classList.add("active2");
-      //click for pause song
-      music.addEventListener('ended', () => {
-        masterPlay.classList.add("bi-play-fill");
-        masterPlay.classList.remove("bi-pause-fill");
-        wave.classList.remove("active2");
-      })
-      makeAllBackgrounds();
-      Array.from(document.getElementsByClassName('songItem'))[`${index-1}`].style.background = 'rgb(105, 105, 170, .1)'
-    })
-  })
-})
+let currentStart = document.getElementById("currentStart");
+let currentEnd = document.getElementById("currentEnd");
+let seek = document.getElementById("seek");
+let bar2 = document.getElementById("bar2");
+let dot = document.getElementsByClassName("dot")[0];
 
-let currentStart = document.getElementById('currentStart');
-let currentEnd = document.getElementById('currentEnd');
-let seek = document.getElementById('seek');
-let bar2 = document.getElementById('bar2');
-let dot = document.getElementsByClassName('dot')[0];
-
-music.addEventListener('timeupdate', () => {
+music.addEventListener("timeupdate", () => {
   let music_curr = music.currentTime;
   let music_dur = music.duration;
 
@@ -230,14 +228,14 @@ music.addEventListener('timeupdate', () => {
   let sec = Math.floor(music_dur % 60);
 
   if (sec < 10) {
-    sec = `0${sec}`
+    sec = `0${sec}`;
   }
   currentEnd.innerText = `${min}:${sec}`;
 
   let min1 = Math.floor(music_curr / 60);
   let sec1 = Math.floor(music_curr % 60);
   if (sec1 < 10) {
-    sec1 = `0${sec1}`
+    sec1 = `0${sec1}`;
   }
   currentStart.innerText = `${min1}:${sec1}`;
 
@@ -246,57 +244,55 @@ music.addEventListener('timeupdate', () => {
   let seekbar = seek.value;
   bar2.style.width = `${seekbar}%`;
   dot.style.left = `${seekbar}%`;
+});
 
-})
+seek.addEventListener("change", () => {
+  music.currentTime = (seek.value * music.duration) / 100;
+});
 
-seek.addEventListener('change', () => {
-  music.currentTime = seek.value * music.duration / 100;
-})
-
-music.addEventListener('ended', () => {
+music.addEventListener("ended", () => {
   masterPlay.classList.add("bi-play-fill");
   masterPlay.classList.remove("bi-pause-fill");
   wave.classList.remove("active2");
-})
+});
 
-let vol_icon = document.getElementById('vol_icon');
-let vol = document.getElementById('vol');
-let vol_dot = document.getElementById('vol_dot');
-let vol_bar = document.getElementsByClassName('vol_bar')[0];
+let vol_icon = document.getElementById("vol_icon");
+let vol = document.getElementById("vol");
+let vol_dot = document.getElementById("vol_dot");
+let vol_bar = document.getElementsByClassName("vol_bar")[0];
 
-vol.addEventListener('change', () => {
+vol.addEventListener("change", () => {
   if (vol.value == 0) {
-    vol_icon.classList.remove('bi-volume-down-fill');
-    vol_icon.classList.add('bi-volume-mute-fill');
-    vol_icon.classList.remove('bi-volume-up-fill');
+    vol_icon.classList.remove("bi-volume-down-fill");
+    vol_icon.classList.add("bi-volume-mute-fill");
+    vol_icon.classList.remove("bi-volume-up-fill");
   }
   if (vol.value > 0) {
-    vol_icon.classList.add('bi-volume-down-fill');
-    vol_icon.classList.remove('bi-volume-mute-fill');
-    vol_icon.classList.remove('bi-volume-up-fill');
+    vol_icon.classList.add("bi-volume-down-fill");
+    vol_icon.classList.remove("bi-volume-mute-fill");
+    vol_icon.classList.remove("bi-volume-up-fill");
   }
   if (vol.value > 50) {
-    vol_icon.classList.remove('bi-volume-down-fill');
-    vol_icon.classList.remove('bi-volume-mute-fill');
-    vol_icon.classList.add('bi-volume-up-fill');
+    vol_icon.classList.remove("bi-volume-down-fill");
+    vol_icon.classList.remove("bi-volume-mute-fill");
+    vol_icon.classList.add("bi-volume-up-fill");
   }
 
   let vol_a = vol.value;
   vol_bar.style.width = `${vol_a}%`;
   vol_dot.style.left = `${vol_a}%`;
   music.volume = vol_a / 100;
+});
 
-})
+// back and next buttons fot player below
 
-// back and next buttons fot player below 
+let back = document.getElementById("back");
+let next = document.getElementById("next");
 
-let back = document.getElementById('back');
-let next = document.getElementById('next');
-
-back.addEventListener('click', () => {
+back.addEventListener("click", () => {
   index -= 1;
   if (index < 1) {
-    index = Array.from(getElementsByClassName('songItem')).length;
+    index = Array.from(getElementsByClassName("songItem")).length;
   }
 
   music.src = `audio/${index}.mp3`;
@@ -305,27 +301,25 @@ back.addEventListener('click', () => {
 
   let song_title = songs.filter((el) => {
     return el.id == index;
-  })
+  });
 
-  song_title.forEach(el => {
-    let {
-      songName
-    } = el;
+  song_title.forEach((el) => {
+    let { songName } = el;
     title.innerHTML = songName;
-  })
+  });
   document.getElementById(`${index}`).classList.remove("bi-play-fill");
   document.getElementById(`${index}`).classList.add("bi-pause-fill");
   makeAllBackgrounds();
-  Array.from(document.getElementsByClassName('songItem'))[`${index-1}`].style.background = 'rgb(105, 105, 170, .1)';
+  Array.from(document.getElementsByClassName("songItem"))[
+    `${index - 1}`
+  ].style.background = "rgb(105, 105, 170, .1)";
+});
 
-
-})
-
-next.addEventListener('click', () => {
+next.addEventListener("click", () => {
   index -= 0;
   index += 1;
   if (index < 1) {
-    index = Array.from(getElementsByClassName('songItem')).length;
+    index = Array.from(getElementsByClassName("songItem")).length;
   }
 
   music.src = `audio/${index}.mp3`;
@@ -334,65 +328,62 @@ next.addEventListener('click', () => {
 
   let song_title = songs.filter((el) => {
     return el.id == index;
-  })
+  });
 
-  song_title.forEach(el => {
-    let {
-      songName
-    } = el;
+  song_title.forEach((el) => {
+    let { songName } = el;
     title.innerHTML = songName;
-  })
+  });
   document.getElementById(`${index}`).classList.remove("bi-play-fill");
   document.getElementById(`${index}`).classList.add("bi-pause-fill");
   makeAllBackgrounds();
-  Array.from(document.getElementsByClassName('songItem'))[`${index-1}`].style.background = 'rgb(105, 105, 170, .1)';
-})
+  Array.from(document.getElementsByClassName("songItem"))[
+    `${index - 1}`
+  ].style.background = "rgb(105, 105, 170, .1)";
+});
 
-// popular songs arrows 
-let left_scroll = document.getElementById('left_scroll');
-let right_scroll = document.getElementById('right_scroll');
-let pop_song = document.getElementsByClassName('pop_song')[0];
+// popular songs arrows
+let left_scroll = document.getElementById("left_scroll");
+let right_scroll = document.getElementById("right_scroll");
+let pop_song = document.getElementsByClassName("pop_song")[0];
 
-left_scroll.addEventListener('click', () => {
+left_scroll.addEventListener("click", () => {
   pop_song.scrollLeft -= 330;
-})
+});
 
-right_scroll.addEventListener('click', () => {
+right_scroll.addEventListener("click", () => {
   pop_song.scrollLeft += 330;
-})
+});
 
-// artist arrows 
-let right_scrolls = document.getElementById('right_scrolls');
-let left_scrolls = document.getElementById('left_scrolls');
-let item = document.getElementsByClassName('item')[0];
+// artist arrows
+let right_scrolls = document.getElementById("right_scrolls");
+let left_scrolls = document.getElementById("left_scrolls");
+let item = document.getElementsByClassName("item")[0];
 
-left_scrolls.addEventListener('click', () => {
+left_scrolls.addEventListener("click", () => {
   item.scrollLeft -= 330;
-})
+});
 
-right_scrolls.addEventListener('click', () => {
+right_scrolls.addEventListener("click", () => {
   item.scrollLeft += 330;
-})
-
+});
 
 // button to open menu on phone
 
-console.log(window.innerWidth);
-
 if (window.innerWidth < 930) {
+  let menu_list_active_button = document.getElementById(
+    "menu_list_active_button"
+  );
+  let menu_side = document.getElementsByClassName("menu_side")[0];
 
-  let menu_list_active_button = document.getElementById('menu_list_active_button');
-  let menu_side = document.getElementsByClassName('menu_side')[0];
-
-  menu_list_active_button.addEventListener('click', () => {
+  menu_list_active_button.addEventListener("click", () => {
     menu_side.style.transform = "unset";
     menu_list_active_button.style.opacity = 0;
-  })
+  });
 
-  let song_side = document.getElementsByClassName('song_side')[0];
-  song_side.addEventListener('click', () => {
+  let song_side = document.getElementsByClassName("song_side")[0];
+  song_side.addEventListener("click", () => {
     menu_side.style.transform = "translateX(-100%)";
     menu_list_active_button.style.opacity = 1;
-  })
-
+  });
 }

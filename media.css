@@ -22,6 +22,15 @@
         display: none;
     }
 
+    header .master_play .icon {
+        width: 15%;
+    }
+
+    .wave {
+        margin-left: 40px;
+        margin-top: -25px;
+    }
+
 }
 
 @media screen and (max-width: 930px) {
@@ -61,6 +70,15 @@
     header .master_play .icon {
         display: flex;
     }
+
+    .wave {
+        margin-left: 390px;
+        margin-top: -85px;
+    }
+
+    .wave .wave1 {
+        width: 30px;
+    }
 }
 
 @media screen and (max-width: 680px) {
@@ -90,7 +108,7 @@
     header .master_play .icon {
         position: absolute;
         top: -46px;
-        right: 34%;
+        right: 40%;
     }
 
     header .master_play .icon::before {
@@ -101,21 +119,14 @@
         background: #112723;
         border-radius: 50% 50% 0% 0%;
         z-index: -999;
-        left: -76%;
+        left: -100%;
         top: -165%;
         box-shadow: 0px -11px 20px -17px #000;
     }
 
-    header .master_play .wave {
-        position: absolute;
-        top: -90px;
-        width: 40px;
-        height: 40px;
-        right: 39%;
-    }
-
-    header .master_play .wave .wave1 {
-        width: 8px;
+    .wave {
+        margin-left: 35px;
+        margin-top: -30px;
     }
 
     header .song_side::before {
@@ -129,10 +140,6 @@
         display: flex;
         width: 150px;
         margin-right: 0px;
-    }
-
-    header .master_play .wave {
-        right: 40%;
     }
 
     header .menu_side {
@@ -159,8 +166,13 @@
         width: 140px;
     }
 
-    header .master_play .wave {
-        right: 40%;
+    .wave .wave1 {
+        width: 33px;
+    }
+
+    .wave {
+        margin-left: 16px;
+        margin-top: 20px;
     }
 
     header .master_play h5 {
