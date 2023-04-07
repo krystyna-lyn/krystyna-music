@@ -266,7 +266,8 @@ header .master_play h5 .subtitle {
 }
 
 header .master_play .icon {
-  font-size: 20px;
+  display: flex;
+  font-size: 17px;
   color: #fff;
   margin: 0px 20px 0px 40px;
   outline: none;
@@ -275,6 +276,14 @@ header .master_play .icon {
 header .master_play .icon .bi {
   cursor: pointer;
   outline: none;
+}
+
+header .master_play .icon .shuffle {
+  font-size: 17px;
+  width: 17.5px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
 header .master_play .icon .bi:nth-child(2) {
@@ -744,4 +753,8 @@ header .song_side .popular_artists .item li img {
   height: 100%;
   border-radius: 50%;
   position: absolute;
+}
+
+.border {
+  border: 5px solid #36ec9e;
 }

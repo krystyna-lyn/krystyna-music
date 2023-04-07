@@ -122,16 +122,23 @@ input.addEventListener("keyup", () => {
 
   for (let index = 0; index < items.length; index++) {
     let as = items[index].getElementsByClassName("content")[0];
+
     let text_value = as.textContent || as.innerHTML;
+
+    let div = document.getElementById(`${index + 1}`);
 
     if (text_value.toUpperCase().indexOf(input_value) > -1) {
       items[index].style.display = "flex";
+
+      div.classList.add("border");
     } else {
       items[index].style.display = "none";
+      div.classList.remove("border");
     }
 
     if (input.value == 0) {
       search_result.style.display = "none";
+      div.classList.remove("border");
     } else {
       search_result.style.display = "";
     }
@@ -199,12 +206,14 @@ Array.from(document.getElementsByClassName("playListPlay")).forEach(
         masterPlay.classList.remove("bi-play-fill");
         masterPlay.classList.add("bi-pause-fill");
         wave.classList.add("active2");
+
         //click for pause song
         music.addEventListener("ended", () => {
           masterPlay.classList.add("bi-play-fill");
           masterPlay.classList.remove("bi-pause-fill");
           wave.classList.remove("active2");
         });
+
         makeAllBackgrounds();
         Array.from(document.getElementsByClassName("songItem"))[
           `${index - 1}`
@@ -387,3 +396,79 @@ if (window.innerWidth < 930) {
     menu_list_active_button.style.opacity = 1;
   });
 }
+
+let shuffle = document.getElementsByClassName("shuffle")[0];
+console.log(shuffle);
+shuffle.addEventListener("click", () => {
+  let a = shuffle.innerHTML;
+  console.log(a);
+
+  switch (a) {
+    case "next":
+      shuffle.classList.add("bi-arrow-repeat");
+      shuffle.classList.remove("bi-music-note-beamed");
+      shuffle.classList.remove("bi-shuffle");
+      shuffle.innerHTML = "repeat";
+
+      break;
+
+    case "repeat":
+      shuffle.classList.remove("bi-arrow-repeat");
+      shuffle.classList.remove("bi-music-note-beamed");
+      shuffle.classList.add("bi-shuffle");
+      shuffle.innerHTML = "random";
+
+      break;
+    case "random":
+      shuffle.classList.remove("bi-arrow-repeat");
+      shuffle.classList.add("bi-music-note-beamed");
+      shuffle.classList.remove("bi-shuffle");
+      shuffle.innerHTML = "next";
+
+      break;
+  }
+
+  music.addEventListener("ended", (e) => {
+    index++;
+
+    music.src = `audio/${index}.mp3`;
+    poster_master_play.src = `img/${index}.jpg`;
+
+    //music.play();
+    var playPromise = music.play();
+
+    if (playPromise !== undefined) {
+      playPromise
+        .then((_) => {
+          masterPlay.classList.remove("bi-play-circle-fill");
+          masterPlay.classList.add("bi-pause-circle-fill");
+
+          let song_title = songs.filter((el) => {
+            return el.id == index;
+          });
+
+          song_title.forEach((el) => {
+            let { songName } = el;
+            title.innerHTML = songName;
+
+            masterPlay.classList.remove("bi-play-fill");
+            masterPlay.classList.add("bi-pause-fill");
+            wave.classList.add("active2");
+
+            makeAllBackgrounds();
+            Array.from(document.getElementsByClassName("songItem"))[
+              `${index - 1}`
+            ].style.background = "rgb(105, 105, 170, .1)";
+            makeAllPlays();
+            e.target.classList.remove("bi-play-circle-fill");
+
+            e.target.classList.add("bi-pause-circle-fill");
+            wave.classList.add("active2");
+          });
+        })
+        .catch((error) => {
+          console.log("error");
+        });
+    }
+  });
+});
