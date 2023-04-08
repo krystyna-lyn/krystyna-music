@@ -87,12 +87,23 @@ const songs = [
 ];
 
 // show popular songs
-Array.from(document.getElementsByClassName("songItem")).forEach(
-  (element, i) => {
-    element.getElementsByTagName("h5")[0].innerHTML = songs[i].songName;
-    element.getElementsByTagName("img")[0].src = songs[i].poster;
-  }
-);
+let pop_songs = document.getElementsByClassName("pop_song")[0];
+
+songs.forEach((element) => {
+  const { id, songName, poster } = element;
+
+  let li = document.createElement("li");
+  li.classList.add("songItem");
+
+  li.innerHTML = `
+                  <div class="img_play" id="${id}">
+                      <img src="${poster}" alt="#">
+                      <i class="bi playListPlay bi-play-circle-fill" id="${id}"></i>
+                  </div>
+                  <h5>${songName}</h5>
+                  `;
+  pop_songs.appendChild(li);
+});
 
 // SEARCH BAR
 
@@ -145,6 +156,22 @@ input.addEventListener("keyup", () => {
   }
 });
 
+
+let btn_play = document.getElementsByClassName("btn-play")[0];
+
+// play Button PLAY
+btn_play.addEventListener("click", () => {
+  if (music.paused || music.currentTime <= 0) {
+    music.play();
+    wave.classList.add("active2");
+    btn_play.innerHTML = 'PLAY';
+  } else {
+    music.pause();
+    btn_play.innerHTML = 'PAUSE';
+    wave.classList.remove("active2");
+  }
+});
+
 // play und pause song below
 let masterPlay = document.getElementById("masterPlay");
 let wave = document.getElementsByClassName("wave")[0];
@@ -161,6 +188,84 @@ masterPlay.addEventListener("click", () => {
     masterPlay.classList.remove("bi-pause-fill");
     wave.classList.remove("active2");
   }
+});
+
+// Shuffle button
+
+let shuffle = document.getElementsByClassName("shuffle")[0];
+
+shuffle.addEventListener("click", () => {
+  let a = shuffle.innerHTML;
+  console.log(a);
+
+  switch (a) {
+    case "next":
+      shuffle.classList.add("bi-arrow-repeat");
+      shuffle.classList.remove("bi-music-note-beamed");
+      shuffle.classList.remove("bi-shuffle");
+      shuffle.innerHTML = "repeat";
+
+      break;
+
+    case "repeat":
+      shuffle.classList.remove("bi-arrow-repeat");
+      shuffle.classList.remove("bi-music-note-beamed");
+      shuffle.classList.add("bi-shuffle");
+      shuffle.innerHTML = "random";
+
+      break;
+    case "random":
+      shuffle.classList.remove("bi-arrow-repeat");
+      shuffle.classList.add("bi-music-note-beamed");
+      shuffle.classList.remove("bi-shuffle");
+      shuffle.innerHTML = "next";
+
+      break;
+  }
+
+  music.addEventListener("ended", (e) => {
+    index++;
+
+    music.src = `audio/${index}.mp3`;
+    poster_master_play.src = `img/${index}.jpg`;
+
+    //music.play();
+    var playPromise = music.play();
+
+    if (playPromise !== undefined) {
+      playPromise
+        .then((_) => {
+          masterPlay.classList.remove("bi-play-circle-fill");
+          masterPlay.classList.add("bi-pause-circle-fill");
+
+          let song_title = songs.filter((el) => {
+            return el.id == index;
+          });
+
+          song_title.forEach((el) => {
+            let { songName } = el;
+            title.innerHTML = songName;
+
+            masterPlay.classList.remove("bi-play-fill");
+            masterPlay.classList.add("bi-pause-fill");
+            wave.classList.add("active2");
+
+            makeAllBackgrounds();
+            Array.from(document.getElementsByClassName("songItem"))[
+              `${index - 1}`
+            ].style.background = "rgb(105, 105, 170, .1)";
+            makeAllPlays();
+            e.target.classList.remove("bi-play-circle-fill");
+
+            e.target.classList.add("bi-pause-circle-fill");
+            wave.classList.add("active2");
+          });
+        })
+        .catch((error) => {
+          console.log("error");
+        });
+    }
+  });
 });
 
 // add to all buttons Play icon and remove pause
@@ -397,78 +502,5 @@ if (window.innerWidth < 930) {
   });
 }
 
-let shuffle = document.getElementsByClassName("shuffle")[0];
-console.log(shuffle);
-shuffle.addEventListener("click", () => {
-  let a = shuffle.innerHTML;
-  console.log(a);
 
-  switch (a) {
-    case "next":
-      shuffle.classList.add("bi-arrow-repeat");
-      shuffle.classList.remove("bi-music-note-beamed");
-      shuffle.classList.remove("bi-shuffle");
-      shuffle.innerHTML = "repeat";
 
-      break;
-
-    case "repeat":
-      shuffle.classList.remove("bi-arrow-repeat");
-      shuffle.classList.remove("bi-music-note-beamed");
-      shuffle.classList.add("bi-shuffle");
-      shuffle.innerHTML = "random";
-
-      break;
-    case "random":
-      shuffle.classList.remove("bi-arrow-repeat");
-      shuffle.classList.add("bi-music-note-beamed");
-      shuffle.classList.remove("bi-shuffle");
-      shuffle.innerHTML = "next";
-
-      break;
-  }
-
-  music.addEventListener("ended", (e) => {
-    index++;
-
-    music.src = `audio/${index}.mp3`;
-    poster_master_play.src = `img/${index}.jpg`;
-
-    //music.play();
-    var playPromise = music.play();
-
-    if (playPromise !== undefined) {
-      playPromise
-        .then((_) => {
-          masterPlay.classList.remove("bi-play-circle-fill");
-          masterPlay.classList.add("bi-pause-circle-fill");
-
-          let song_title = songs.filter((el) => {
-            return el.id == index;
-          });
-
-          song_title.forEach((el) => {
-            let { songName } = el;
-            title.innerHTML = songName;
-
-            masterPlay.classList.remove("bi-play-fill");
-            masterPlay.classList.add("bi-pause-fill");
-            wave.classList.add("active2");
-
-            makeAllBackgrounds();
-            Array.from(document.getElementsByClassName("songItem"))[
-              `${index - 1}`
-            ].style.background = "rgb(105, 105, 170, .1)";
-            makeAllPlays();
-            e.target.classList.remove("bi-play-circle-fill");
-
-            e.target.classList.add("bi-pause-circle-fill");
-            wave.classList.add("active2");
-          });
-        })
-        .catch((error) => {
-          console.log("error");
-        });
-    }
-  });
-});

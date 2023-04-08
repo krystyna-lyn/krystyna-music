@@ -23,7 +23,7 @@
     }
 
     header .master_play .icon {
-        width: 15%;
+        width: 10%;
     }
 
     .wave {
@@ -107,8 +107,8 @@
 
     header .master_play .icon {
         position: absolute;
-        top: -46px;
-        right: 40%;
+        top: -45px;
+        right: 50%;
     }
 
     header .master_play .icon::before {
