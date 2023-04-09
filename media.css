@@ -7,6 +7,7 @@
     header .menu_side,
     .song_side {
         width: 30%;
+            height: 100%;
     }
 
     header .song_side {
@@ -43,7 +44,8 @@
     }
 
     header .song_side {
-        width: 100%;
+        width: 100%;   
+        height: 100%;
     }
 
     header .master_play {
@@ -54,7 +56,7 @@
     header .menu_side h6 {
         position: absolute;
         right: -40px;
-        bottom: 10px;
+        bottom: 110px;
         width: 40px;
         height: 40px;
         background: #112723;
@@ -133,6 +135,8 @@
         margin-left: -2px;
         margin-top: 155px;
     }
+
+  
 }
 
 @media screen and (max-width: 470px) {
@@ -153,6 +157,23 @@
     header .song_side::before {
         margin-left: -7px;
         margin-top: 185px;
+    }
+
+    header .master_play .icon {
+        font-size: 35px;
+        top: -65px;
+        right: 60%;;
+    }
+
+    header .master_play .icon::before {
+        top: -40px;
+        left: -30%;
+    }
+
+    header .master_play .icon .shuffle {
+        font-size: 35px;
+        width: 3.5px;
+        overflow: hidden;
     }
 }
 
@@ -209,4 +230,7 @@
     #txt-desc {
         display: none;
     }
+
+   
+
 }

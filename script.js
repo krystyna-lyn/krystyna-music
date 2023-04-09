@@ -156,7 +156,7 @@ input.addEventListener("keyup", () => {
   }
 });
 
-
+let play_song = document.getElementById("play_song");
 let btn_play = document.getElementsByClassName("btn-play")[0];
 
 // play Button PLAY
@@ -171,6 +171,7 @@ btn_play.addEventListener("click", () => {
     wave.classList.remove("active2");
   }
 });
+
 
 // play und pause song below
 let masterPlay = document.getElementById("masterPlay");
@@ -501,6 +502,7 @@ if (window.innerWidth < 930) {
     menu_list_active_button.style.opacity = 1;
   });
 }
+
 
 
 
