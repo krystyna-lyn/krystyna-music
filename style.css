@@ -31,9 +31,8 @@ header .menu_side,
   position: relative;
   width: 25%;
   height: 90%;
-  /* border: 1px solid #fff; */
   background-color: #122420;
-  box-shadow: 5px 0px 2px #091f1c;
+  /* box-shadow: 5px 0px 2px #091f1c;*/
   color: #fff;
 }
 
@@ -288,7 +287,6 @@ header .master_play .icon .shuffle {
 }
 
 header .master_play .icon .bi:nth-child(2) {
-  border: 1px solid rgb(105, 105, 170, 0.1);
   border-radius: 50%;
   padding: 1px 4px 0px 6px;
   margin: -1px 10px;
