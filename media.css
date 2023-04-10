@@ -93,6 +93,10 @@
     height: 100vh;
   }
 
+  header .song_side{
+    height: 88%;
+  }
+
   header .song_side nav ul li {
     font-size: 11px;
     margin-right: 10px;
