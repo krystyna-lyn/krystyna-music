@@ -27,6 +27,14 @@
     width: 10%;
   }
 
+  header .master_play .icon .shuffle {
+    font-size: 17px;
+    width: 17.5px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
   .wave {
     margin-left: 40px;
     margin-top: -25px;
